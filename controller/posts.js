@@ -87,7 +87,7 @@ exports.like = async (req, res) => {
             res.json({status: false, message: 'Invalid params!'});       
 
         }else{
-            await _db.get().collection(Posts).update( { postId: postId },{ $inc: { likes: 1 }});
+            await _db.get().collection(Posts).updateOne( { postId: postId },{ $inc: { likes: 1 }});
             res.json({status: true, message: ''});
         }
         
