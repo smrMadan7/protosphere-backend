@@ -17,34 +17,39 @@ exports.verify = async (req, res) => {
     let signatureHex = req.body.signature;
     let address = req.body.address;
     let message = req.body.message;
-    if(!signatureHex || !address || !message){
-        res.json({status:false,message:''})
-    }else{
-        let recoveredAddress = web3.eth.accounts.recover(message, signatureHex);        
-        if (recoveredAddress.toUpperCase() === address.toUpperCase()) { //verified
-            let profile =  await _db.get().collection(User).findOne({address:address});
-            console.log(profile);
-            delete profile['id'];
-            if(profile){
-                res.json({
-                    status: true,
-                    data : profile,
-                });
-            }else{
-                res.json({
-                    status: true,
-                    data : null,
-                });
-            }
-
-          
-        } else { //failed
-          res.json({
-            status: false,
-            message:'Signature mismatch!'
-          });
-        }  
-    }   
+    console.log(req.body);
+    try {
+        if(!signatureHex || !address || !message){
+            res.json({status:false,message:'Invalid params'})
+        }else{
+            let recoveredAddress = web3.eth.accounts.recover(message, signatureHex);        
+            if (recoveredAddress.toUpperCase() === address.toUpperCase()) { //verified
+                let profile =  await _db.get().collection(User).findOne({address:address});
+                console.log(profile);
+                delete profile['id'];
+                if(profile){
+                    res.json({
+                        status: true,
+                        data : profile,
+                    });
+                }else{
+                    res.json({
+                        status: true,
+                        data : null,
+                    });
+                }
+    
+              
+            } else { //failed
+              res.json({
+                status: false,
+                message:'Signature mismatch!'
+              });
+            }  
+        }   
+    } catch (error) {
+        console.log(error);
+    }
 
 }
 

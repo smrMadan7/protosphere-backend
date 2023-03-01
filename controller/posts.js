@@ -26,7 +26,7 @@ exports.createPost = async (req, res) => {
           createdBy: address,
           postURI: cid.path,
           timestamp: new Date().getTime(),
-          likes:[]
+          likes:0
         });
         res.json({ staus: true, message: "" });
       }
@@ -80,5 +80,18 @@ exports.getPostById = async (req, res) => {
 
 // To implement Like
 exports.like = async (req, res) => {
+    try {
+        let postId = req.body.postId;
+        console.log(postId);
+        if(!postId){
+            res.json({status: false, message: 'Invalid params!'});       
 
+        }else{
+            await _db.get().collection(Posts).update( { postId: postId },{ $inc: { likes: 1 }});
+            res.json({status: true, message: ''});
+        }
+        
+    } catch (error) {
+        res.json({status: false, message: 'unable to update like'});        
+    }
 }

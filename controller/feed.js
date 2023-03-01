@@ -25,9 +25,8 @@ exports.getFeed = async (req, res) => {
           for(f of feed){
             let profile =  await _db.get().collection(User).findOne({address:f.createdBy},{ _id: 0, profilePictureUrl: 1 });
             // console.log(profileUrl);
-            f['profilePictureUrl'] = profile.profilePictureUrl
-            f['handle'] = profile.handle
-
+            f['profilePictureUrl'] = profile.profilePictureUrl;
+            f['handle'] = profile.handle;
           }
     
           res.json({ staus: true, data: feed });

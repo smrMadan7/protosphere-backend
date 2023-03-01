@@ -7,7 +7,7 @@ module.exports =  Object.freeze({
     DBNAME: "filster-dev",
     privateKey : pkey,
     MONGODBURL : "mongodb://localhost:27017",
-    HyperspaceRPC : "https://api.hyperspace.node.glif.io/rpc/v1",
+    HyperspaceRPC : "https://filecoin-hyperspace.chainstacklabs.com/rpc/v1",
     ipfsURL:"http://localhost:8080",
     FilMasterAddress : "0x805612Bd2e7621B8a721Bec29D2bb24DAdd11Be6",
     FilMasterABI : [
