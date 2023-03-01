@@ -1,8 +1,11 @@
+require("dotenv").config();
+let pkey = process.env.privateKey
 module.exports =  Object.freeze({
     PORT: 3000,    
 
     //DB
     DBNAME: "filster-dev",
+    privateKey : pkey,
     MONGODBURL : "mongodb://localhost:27017",
     HyperspaceRPC : "https://api.hyperspace.node.glif.io/rpc/v1",
     ipfsURL:"http://localhost:8080",

@@ -47,7 +47,7 @@ exports.getPostsByAddress = async (req, res) => {
     }else{
         let posts =  await _db.get().collection(Posts).find({    
             createdBy:address       
-        }).toArray();
+        }).sort({timestamp:-1}).toArray();
         res.json({staus:true, data: posts});
     }
     

@@ -20,7 +20,15 @@ exports.getFeed = async (req, res) => {
         console.log(Posts);
         let feed = await _db.get().collection(Posts).find({
             createdBy: {$not :{$eq:address}},
-          }).sort({timestamp:1}).toArray();
+          }).sort({timestamp:-1}).toArray();
+
+          for(f of feed){
+            let profile =  await _db.get().collection(User).findOne({address:f.createdBy},{ _id: 0, profilePictureUrl: 1 });
+            // console.log(profileUrl);
+            f['profilePictureUrl'] = profile.profilePictureUrl
+            f['handle'] = profile.handle
+
+          }
     
           res.json({ staus: true, data: feed });
       }     

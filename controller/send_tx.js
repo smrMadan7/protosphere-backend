@@ -5,7 +5,6 @@ const Web3 = require('web3');
 const axios = require('axios');
 const _db = require('../config/db');
 
-
 let user = "user";
 const provider = new Web3.providers.HttpProvider(
     config.HyperspaceRPC
@@ -17,7 +16,7 @@ const AUTH_ADDRESS = '0xB771e43C55444015A798BD5d873B1B14ebda6d7C';
 async function sendTx() {
 
   let instance = new web3.eth.Contract(config.FilMasterABI, config.FilMasterAddress);
-  web3.eth.accounts.wallet.add(privateKey);
+  web3.eth.accounts.wallet.add(config.privateKey);
 
 
   console.log(`Initiated ...`);    
