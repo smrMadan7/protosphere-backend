@@ -26,8 +26,8 @@ exports.verify = async (req, res) => {
             if (recoveredAddress.toUpperCase() === address.toUpperCase()) { //verified
                 let profile =  await _db.get().collection(User).findOne({address:address});
                 console.log(profile);
-                delete profile['id'];
                 if(profile){
+                    delete profile['id'];
                     res.json({
                         status: true,
                         data : profile,

@@ -13,8 +13,8 @@ const ipfs = create(constants.ipfsURL)
 
 exports.createPost = async (req, res) => {
     try {
-      let { profileId, address, postData } = req.body;
-      if (!profileId || !address || !postData) {
+      let { postId, address, postData } = req.body;
+      if (!postId || !address || !postData) {
         res.statusCode = 400;
         res.json({ staus: false, message: "Invalid params" });
       } else {
@@ -22,7 +22,7 @@ exports.createPost = async (req, res) => {
         let cid = await ipfs.add(Buffer.from(JSON.stringify(postData)));
         console.log(req.body, cid.path);
         await _db.get().collection(Posts).insertOne({
-          profileId,
+          postId,
           createdBy: address,
           postURI: cid.path,
           timestamp: new Date().getTime(),
@@ -81,7 +81,8 @@ exports.getPostById = async (req, res) => {
 // To implement Like
 exports.like = async (req, res) => {
     try {
-        let postId = req.body.postId;
+        let {postId,handle} = req.body;
+        
         console.log(postId);
         if(!postId){
             res.json({status: false, message: 'Invalid params!'});       
