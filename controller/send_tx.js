@@ -53,7 +53,7 @@ async function sendTx() {
     ).send({
       nonce: web3.utils.toHex(txCount),
       from: AUTH_ADDRESS,
-      to: '0xC4813c95f98eC788B9511F096d6CA3f83049BeF5',
+      to: config.FilMasterAddress,
       gas: 800000,//estimatedGas, //gasLimit ? gasLimit : defaultGasLimit
       gasPrice: gasPrice,
       maxPriorityFeePerGas: 5 * 1e9,//priceParams.maxPriorityFeePerGas,
@@ -90,7 +90,64 @@ async function sendTx() {
     });
   }
 
+  function send_token( ) {
 
+    let contract_address = config.FilMasterAddress
+    let send_token_amount,
+    let to_address,
+    let send_account,
+    let private_key
+
+
+    let wallet = new ethers.Wallet(private_key)
+    let walletSigner = wallet.connect(window.ethersProvider)
+  
+    window.ethersProvider.getGasPrice().then((currentGasPrice) => {
+      let gas_price = ethers.utils.hexlify(parseInt(currentGasPrice))
+      console.log(`gas_price: ${gas_price}`)
+  
+      if (contract_address) {
+        // general token send
+        let contract = new ethers.Contract(
+          contract_address,
+          send_abi,
+          walletSigner
+        )
+  
+        // How many tokens?
+        let numberOfTokens = ethers.utils.parseUnits(send_token_amount, 18)
+        console.log(`numberOfTokens: ${numberOfTokens}`)
+  
+        // Send tokens
+        contract.transfer(to_address, numberOfTokens).then((transferResult) => {
+          console.dir(transferResult)
+          alert("sent token")
+        })
+      } // ether send
+      else {
+        const tx = {
+          from: send_account,
+          to: to_address,
+          value: ethers.utils.parseEther(send_token_amount),
+          nonce: window.ethersProvider.getTransactionCount(
+            send_account,
+            "latest"
+          ),
+          gasLimit: ethers.utils.hexlify(gas_limit), // 100000
+          gasPrice: gas_price,
+        }
+        console.dir(tx)
+        try {
+          walletSigner.sendTransaction(tx).then((transaction) => {
+            console.dir(transaction)
+            alert("Send finished!")
+          })
+        } catch (error) {
+          alert("failed to send!!")
+        }
+      }
+    })
+  }
 
   sendTx();
   
