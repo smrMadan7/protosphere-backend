@@ -78,7 +78,7 @@ exports.getPostById = async (req, res) => {
 }
 
 
-// To implement Like
+// simple like
 exports.like = async (req, res) => {
     try {
         let {postId,handle} = req.body;
@@ -96,3 +96,91 @@ exports.like = async (req, res) => {
         res.json({status: false, message: 'unable to update like'});        
     }
 }
+
+
+
+// // To implement Like in a proper way
+// exports.like = async (req, res) => {
+//     try {
+//         let {postId,address} = req.body;
+        
+//         console.log(postId);
+//         if(!postId){
+//             res.json({status: false, message: 'Invalid params!'});       
+
+//         }else{
+//             await _db.get().collection(Posts).updateOne( { postId: postId },{ $inc: { likes: 1 }});
+//             res.json({status: true, message: ''});
+//         }
+        
+//     } catch (error) {
+//         res.json({status: false, message: 'unable to update like'});        
+//     }
+// }
+
+
+exports.comment = async (req,res) => {
+    try {
+        let {postId,commentId,commenter,comment,tags} = req.body;
+        if(!postId || !commentId || !commenter || !comment){
+            res.json({status: false, message: 'Invalid params!'});      
+        }else{
+            await _db
+              .get()
+              .collection(Posts)
+              .updateOne(
+                { postId: postId },
+                {
+                  $push: {
+                    comments: {
+                        comment,
+                        commentId,
+                        commenter,
+                        tags,
+                    },
+                  },
+                },
+                { upsert: true }
+              );
+
+            res.json({status: true, data:{id:commentId}});
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({status: false, message: 'Something went wrong!'});
+    }
+}
+
+
+
+// exports.editComment = async (req,res) => {
+//     try {
+//         let {postId,commentId,commenter,comment,tags} = req.body;
+//         if(!postId || !commentId || !commenter || !comment){
+//             res.json({status: false, message: 'Invalid params!'});      
+//         }else{
+//             await _db
+//               .get()
+//               .collection(Posts)
+//               .updateOne(
+//                 { postId: postId },
+//                 {
+//                   $push: {
+//                     comments: {
+//                         comment,
+//                         commentId,
+//                         commenter,
+//                         tags,
+//                     },
+//                   },
+//                 },
+//                 { upsert: true }
+//               );
+
+//             res.json({status: true, data:{id:commentId}});
+//         }
+//     } catch (error) {
+//         console.log(error);
+//         res.json({status: false, message: 'Something went wrong!'});
+//     }
+// }
