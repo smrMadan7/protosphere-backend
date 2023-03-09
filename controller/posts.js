@@ -57,26 +57,6 @@ exports.getPostsByAddress = async (req, res) => {
 
 }
 
-// TODO
-exports.getPostById = async (req, res) => {
-    try {
-        let { profileId} = req.params;
-    if(!address ){
-        res.statusCode = 400;
-        res.json({staus:false, message: 'Invalid params'});
-    }else{
-        let posts =  await _db.get().collection(Posts).find({    
-            profileId:profileId       
-        }).toArray();
-        res.json({staus:true, data: posts});
-    }
-    
-    } catch (error) {
-        console.log(error);
-    }   
-
-}
-
 
 // simple like
 exports.like = async (req, res) => {
@@ -125,6 +105,7 @@ exports.comment = async (req,res) => {
         if(!postId || !commentId || !commenter || !comment){
             res.json({status: false, message: 'Invalid params!'});      
         }else{
+            let ts = new Date().getTime()
             await _db
               .get()
               .collection(Posts)
@@ -137,6 +118,7 @@ exports.comment = async (req,res) => {
                         commentId,
                         commenter,
                         tags,
+                        timestamp:ts
                     },
                   },
                 },
@@ -184,3 +166,51 @@ exports.comment = async (req,res) => {
 //         res.json({status: false, message: 'Something went wrong!'});
 //     }
 // }
+
+
+exports.getComments = async (req,res) => {
+    try {
+        let {postId} = req.params;
+        if(!postId){
+            res.json({status: false, message: 'Invalid params!'});      
+        }else{
+            // let data = await _db.get().collection(Posts).findOne( { postId: postId },{_id:0,comments:1});  
+            let data = await _db.get().collection(Posts).findOne( { postId: postId });  
+            if(data){
+                if(data.comments){
+                    // for(comment of data.comments){
+                    //     let user = await _db.get().collection(User).findOne( { address: comment.commenter },{_id:0,profilePictureUrl:1})
+                    //     console.log(user);
+                    //     comment['commenterProfile'] = user.profilePictureUrl;
+                    // }
+                    // res.json({status: true, data: data.comments});
+
+                    let address = [];
+                    console.log(address);
+                    await data.comments.map((a) => {
+                      address.push(a.commenter);
+                    });
+
+                    let users = await _db.get().collection(User).find( { address: {$in:address} },{_id:0,profilePictureUrl:1}).toArray();
+                    console.log(users);
+
+                    data.comments.map((comment,i)=>{
+                        comment['commenterProfile'] = users[i].profilePictureUrl
+                    })
+
+                    res.json({status: true, data: data.comments});
+
+
+                }else{
+                    res.json({status: true, data: []});
+                }
+            }else{
+                res.json({status: false, message:"Invalid post id/post not found!"});
+            }
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({status: false, message: 'Something went wrong!'});
+    }
+}
+

@@ -14,9 +14,9 @@ module.exports = app =>{
 
     router.post('/post/create',postController.createPost);
     router.get('/post/getPostByWallet/:address',postController.getPostsByAddress);
-    router.get('/post/getPostById/:postId',postController.getPostById);
     router.post('/post/like',postController.like);
     router.post('/post/comment',postController.comment);
+    router.get('/post/getComments/:postId',postController.getComments);
 
     router.get('/feed/getFeed/:address',feedController.getFeed);
 
