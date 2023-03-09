@@ -178,27 +178,29 @@ exports.getComments = async (req,res) => {
             let data = await _db.get().collection(Posts).findOne( { postId: postId });  
             if(data){
                 if(data.comments){
-                    // for(comment of data.comments){
-                    //     let user = await _db.get().collection(User).findOne( { address: comment.commenter },{_id:0,profilePictureUrl:1})
-                    //     console.log(user);
-                    //     comment['commenterProfile'] = user.profilePictureUrl;
-                    // }
-                    // res.json({status: true, data: data.comments});
-
-                    let address = [];
-                    console.log(address);
-                    await data.comments.map((a) => {
-                      address.push(a.commenter);
-                    });
-
-                    let users = await _db.get().collection(User).find( { address: {$in:address} },{_id:0,profilePictureUrl:1}).toArray();
-                    console.log(users);
-
-                    data.comments.map((comment,i)=>{
-                        comment['commenterProfile'] = users[i].profilePictureUrl
-                    })
-
+                    for(comment of data.comments){
+                        let user = await _db.get().collection(User).findOne( { address: comment.commenter },{_id:0,profilePictureUrl:1})
+                        console.log(user);
+                        comment['commenterProfilePic'] = user.profilePictureUrl;
+                    }
                     res.json({status: true, data: data.comments});
+
+                    // let address = [];
+                    // console.log(address);
+                    // await data.comments.map((a) => {
+                    //   address.push(a.commenter);
+                    // });
+                    // if(address){
+                    //     let users = await _db.get().collection(User).find( { address: {$in:address} },{_id:0,profilePictureUrl:1}).toArray();
+                    //     console.log(users);
+
+                    //     data.comments.map((comment,i)=>{
+                    //         comment['commenterProfile'] = users[i].profilePictureUrl
+                    //     })
+
+                    //     res.json({status: true, data: data.comments});
+                    // }
+                    
 
 
                 }else{
