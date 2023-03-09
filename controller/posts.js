@@ -182,6 +182,8 @@ exports.getComments = async (req,res) => {
                         let user = await _db.get().collection(User).findOne( { address: comment.commenter },{_id:0,profilePictureUrl:1})
                         console.log(user);
                         comment['commenterProfilePic'] = user.profilePictureUrl;
+                        comment['commenterDisplayName'] = user["displayName"] ? user.displayName : user.organizationName;
+                        comment['commenterHandle'] = user.handle;
                     }
                     res.json({status: true, data: data.comments});
 
