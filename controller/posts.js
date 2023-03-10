@@ -135,37 +135,32 @@ exports.comment = async (req,res) => {
 
 
 
-// exports.editComment = async (req,res) => {
-//     try {
-//         let {postId,commentId,commenter,comment,tags} = req.body;
-//         if(!postId || !commentId || !commenter || !comment){
-//             res.json({status: false, message: 'Invalid params!'});      
-//         }else{
-//             await _db
-//               .get()
-//               .collection(Posts)
-//               .updateOne(
-//                 { postId: postId },
-//                 {
-//                   $push: {
-//                     comments: {
-//                         comment,
-//                         commentId,
-//                         commenter,
-//                         tags,
-//                     },
-//                   },
-//                 },
-//                 { upsert: true }
-//               );
+exports.editComment = async (req,res) => {
+    try {
+        let {postId,commentId,comment,tags} = req.body;
+        if(!postId || !commentId || !comment){
+            res.json({status: false, message: 'Invalid params!'});      
+        }else{
+            await _db
+              .get()
+              .collection(Posts)
+              .updateOne(
+                { 'comments.commentId': commentId },
+                {
+                  $set: {
+                    'comments.$' : req.body
+                  },
+                },
+                { upsert: true }
+              );
 
-//             res.json({status: true, data:{id:commentId}});
-//         }
-//     } catch (error) {
-//         console.log(error);
-//         res.json({status: false, message: 'Something went wrong!'});
-//     }
-// }
+            res.json({status: true, data:{id:commentId}});
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({status: false, message: 'Something went wrong!'});
+    }
+}
 
 
 exports.getComments = async (req,res) => {
@@ -185,7 +180,7 @@ exports.getComments = async (req,res) => {
                         comment['commenterDisplayName'] = user["displayName"] ? user.displayName : user.organizationName;
                         comment['commenterHandle'] = user.handle;
                     }
-                    res.json({status: true, data: data.comments});
+                    res.json({status: true, data: {postId,comments:data.comments}});
 
                     // let address = [];
                     // console.log(address);
