@@ -10,7 +10,9 @@ module.exports = app =>{
     router.get('/user/checkHandleAvailability/:handle',userController.checkHandle);
     router.post('/user/registerMember',userController.registerMember);
     router.post('/user/registerTeam',userController.registerTeam);
+    // To remove profile from here and frontend | replace with profile
     router.get('/user/getProfile/:address',userController.getProfile);
+    router.post('/user/getProfiles',userController.getProfiles);
 
     router.post('/post/create',postController.createPost);
     router.get('/post/getPostByWallet/:address',postController.getPostsByAddress);

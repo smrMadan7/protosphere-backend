@@ -58,38 +58,17 @@ exports.getPostsByAddress = async (req, res) => {
 }
 
 
-// simple like
-exports.like = async (req, res) => {
-    try {
-        let {postId,handle} = req.body;
-        
-        console.log(postId);
-        if(!postId){
-            res.json({status: false, message: 'Invalid params!'});       
-
-        }else{
-            await _db.get().collection(Posts).updateOne( { postId: postId },{ $inc: { likes: 1 }});
-            res.json({status: true, message: ''});
-        }
-        
-    } catch (error) {
-        res.json({status: false, message: 'unable to update like'});        
-    }
-}
-
-
-
-// // To implement Like in a proper way
+// // simple like
 // exports.like = async (req, res) => {
 //     try {
-//         let {postId,address} = req.body;
+//         let {postId,handle} = req.body;
         
 //         console.log(postId);
 //         if(!postId){
 //             res.json({status: false, message: 'Invalid params!'});       
 
 //         }else{
-//             await _db.get().collection(Posts).updateOne( { postId: postId },{ $push:{likes:address}});
+//             await _db.get().collection(Posts).updateOne( { postId: postId },{ $inc: { likes: 1 }});
 //             res.json({status: true, message: ''});
 //         }
         
@@ -97,6 +76,35 @@ exports.like = async (req, res) => {
 //         res.json({status: false, message: 'unable to update like'});        
 //     }
 // }
+
+
+
+// To implement Like in a proper way
+exports.like = async (req, res) => {
+    try {
+        let {postId, address,action} = req.body;
+        
+        if(!postId || !address && !action){
+            res.json({status: false, message: 'Invalid params!'});       
+
+        }else{
+            if(action == 'like'){
+                console.log('like');
+                await _db.get().collection(Posts).updateOne( { postId: postId },{"$addToSet": {likes:address}});
+                res.json({status:true,data:null});
+            }else if (action == 'unlike'){
+                await _db.get().collection(Posts).updateOne( { postId: postId },{$pull: {likes:address}});
+                res.json({status:true,data:null});
+
+            }else{
+                res.json({status:false,message:'Invalid action'});
+            }
+        }
+        
+    } catch (error) {
+        res.json({status: false, message: 'unable to update like'});        
+    }
+}
 
 
 exports.comment = async (req,res) => {

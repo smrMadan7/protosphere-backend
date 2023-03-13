@@ -180,3 +180,31 @@ exports.getProfile = async (req, res) => {
 
 }
 
+
+exports.getProfiles = async (req, res) => {
+  try {
+    let address = req.body.address;
+  console.log(address.length );
+  if (!address || address.length < 1) {
+    res.json({ status: false, message: "Invalid params!", statusCode: 400 });
+  } else {
+    console.log(address);
+
+    let profile = await _db
+      .get()
+      .collection(User)
+      .find({ address: { $in: address } },{_id:0})
+      .toArray();
+    if (profile) {
+      res.json({ status: true, data: profile, message: "" });
+    } else {
+      res.json({ status: false, message: "No profile found for the wallet!" });
+    }
+  }
+  } catch (error) {
+    console.log(error);
+    res.json({ status: false, message: "Something went wrong!" });
+    
+  }
+};
+
