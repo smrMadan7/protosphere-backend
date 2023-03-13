@@ -89,7 +89,7 @@ exports.like = async (req, res) => {
 //             res.json({status: false, message: 'Invalid params!'});       
 
 //         }else{
-//             await _db.get().collection(Posts).updateOne( { postId: postId },{ $inc: { likes: 1 }});
+//             await _db.get().collection(Posts).updateOne( { postId: postId },{ $push:{likes:address}});
 //             res.json({status: true, message: ''});
 //         }
         
@@ -137,8 +137,8 @@ exports.comment = async (req,res) => {
 
 exports.editComment = async (req,res) => {
     try {
-        let {postId,commentId,commenter,comment,tags} = req.body;
-        if(!postId || !commentId || commenter || !comment){
+        let {postId,commentId,commenter,comment,tags,timestamp} = req.body;
+        if(!postId || !commentId || commenter || !comment || timestamp){
             res.json({status: false, message: 'Invalid params!'});      
         }else{
             await _db
