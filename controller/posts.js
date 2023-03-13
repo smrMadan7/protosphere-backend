@@ -137,8 +137,8 @@ exports.comment = async (req,res) => {
 
 exports.editComment = async (req,res) => {
     try {
-        let {postId,commentId,comment,tags} = req.body;
-        if(!postId || !commentId || !comment){
+        let {postId,commentId,commenter,comment,tags} = req.body;
+        if(!postId || !commentId || commenter || !comment){
             res.json({status: false, message: 'Invalid params!'});      
         }else{
             await _db
