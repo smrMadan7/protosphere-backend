@@ -26,7 +26,7 @@ exports.createPost = async (req, res) => {
           createdBy: address,
           postURI: cid.path,
           timestamp: new Date().getTime(),
-          likes:0
+          likes:[]
         });
         res.json({ staus: true, message: "" });
       }
