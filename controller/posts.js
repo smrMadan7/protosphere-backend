@@ -171,6 +171,25 @@ exports.editComment = async (req,res) => {
 }
 
 
+
+
+exports.getPost = async (req,res) => {
+    try {
+        let {postId} = req.params;
+        if(!postId){
+            res.json({status: false, message: 'Invalid params!'});      
+        }else{
+            let data = await _db.get().collection(Posts).findOne( { postId: postId });  
+            res.json({status: true, data: {postId,data}});           
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({status: false, message: 'Something went wrong!'});
+    }
+} 
+
+
+
 exports.getComments = async (req,res) => {
     try {
         let {postId} = req.params;
