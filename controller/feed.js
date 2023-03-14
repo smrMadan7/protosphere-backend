@@ -27,6 +27,11 @@ exports.getFeed = async (req, res) => {
             // console.log(profileUrl);
             f['profilePictureUrl'] = profile.profilePictureUrl;
             f['handle'] = profile.handle;
+            if(profile.type == 'member'){
+              f['displayName'] = profile.displayName
+            }else{
+              f['displayName'] = profile.organizationName;
+            }
           }
     
           res.json({ staus: true, data: feed });
