@@ -47,7 +47,7 @@ exports.getPostsByAddress = async (req, res) => {
         res.json({staus:false, message: 'Invalid params'});
     }else{
         let posts =  await _db.get().collection(Posts).find({    
-            createdBy:address       
+            $or:[{createdBy:address},{shares: {$in:[address]}}]       
         }).sort({timestamp:-1}).toArray();
         res.json({staus:true, data: posts});
     }
