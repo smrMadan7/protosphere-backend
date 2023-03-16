@@ -111,13 +111,13 @@ exports.like = async (req, res) => {
 
 exports.share = async (req, res) => {
     try {
-        let {postId, address} = req.body;
+        let {postId, sharedBy} = req.body;
         
-        if(!postId || !address){
+        if(!postId || !sharedBy){
             res.json({status: false, message: 'Invalid params!'});       
 
         }else{           
-            await _db.get().collection(Posts).updateOne( { postId: postId },{"$addToSet": {shares : {$each : address}} });
+            await _db.get().collection(Posts).updateOne( { postId: postId },{"$addToSet": {shares : sharedBy} });
             res.json({status:true,data:null});
         }
         
