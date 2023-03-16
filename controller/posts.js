@@ -26,7 +26,8 @@ exports.createPost = async (req, res) => {
           createdBy: address,
           postURI: cid.path,
           timestamp: new Date().getTime(),
-          likes:[]
+          likes:[],
+          shares: [] 
         });
         res.json({ staus: true, message: "" });
       }
@@ -79,7 +80,6 @@ exports.getPostsByAddress = async (req, res) => {
 
 
 
-// To implement Like in a proper way
 exports.like = async (req, res) => {
     try {
         let {postId, address,action} = req.body;
@@ -105,6 +105,27 @@ exports.like = async (req, res) => {
         res.json({status: false, message: 'unable to update like'});        
     }
 }
+
+
+
+
+exports.share = async (req, res) => {
+    try {
+        let {postId, address} = req.body;
+        
+        if(!postId || !address){
+            res.json({status: false, message: 'Invalid params!'});       
+
+        }else{           
+            await _db.get().collection(Posts).updateOne( { postId: postId },{"$addToSet": {shares : {$each : address}} });
+            res.json({status:true,data:null});
+        }
+        
+    } catch (error) {
+        res.json({status: false, message: 'unable to update like'});        
+    }
+}
+
 
 
 exports.comment = async (req,res) => {

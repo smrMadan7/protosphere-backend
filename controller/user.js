@@ -159,6 +159,7 @@ exports.registerTeam = async (req, res) => {
 
 
 exports.getProfile = async (req, res) => {
+try {
     let address = req.params.address;
 
 
@@ -176,6 +177,35 @@ exports.getProfile = async (req, res) => {
     }
 
     }
+} catch (error) {
+  console.log(error);
+  res.json({status:false ,message:"Something went wrong!"});
+  
+}
+
+
+}
+
+
+
+exports.editProfile = async (req, res) => {
+  let address = req.params.address;
+
+
+  if (!address) {
+      res.json({status:false, message:"Invalid params!", statusCode:400});
+  } else {
+  console.log(address);
+
+  let profile =  await _db.get().collection(User).findOne({address:address})
+  if(profile){
+      delete profile['_id']
+      res.json({status:true,data:profile ,message:""});
+  }else{
+      res.json({status:false ,message:"No profile found for the wallet!"});
+  }
+
+  }
 
 
 }
@@ -201,6 +231,29 @@ exports.getProfiles = async (req, res) => {
       res.json({ status: false, message: "No profile found for the wallet!" });
     }
   }
+  } catch (error) {
+    console.log(error);
+    res.json({ status: false, message: "Something went wrong!" });
+    
+  }
+};
+
+
+
+exports.getAllProfiles = async (req, res) => {
+  try {
+    
+    let profile = await _db
+      .get()
+      .collection(User)
+      .find({},{_id:0})
+      .toArray();
+    if (profile) {
+      res.json({ status: true, data: profile, message: "" });
+    } else {
+      res.json({ status: false, message: "No profile found!" });
+    }
+
   } catch (error) {
     console.log(error);
     res.json({ status: false, message: "Something went wrong!" });

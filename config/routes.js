@@ -13,10 +13,12 @@ module.exports = app =>{
     // To remove profile from here and frontend | replace with profile
     router.get('/user/getProfile/:address',userController.getProfile);
     router.post('/user/getProfiles',userController.getProfiles);
+    router.get('/user/getAllProfiles',userController.getAllProfiles);
 
     router.post('/post/create',postController.createPost);
     router.get('/post/getPostByWallet/:address',postController.getPostsByAddress);
     router.post('/post/like',postController.like);
+    router.post('/post/share',postController.share);
     router.post('/post/comment',postController.comment);
     router.get('/post/get/:postId',postController.getPost);
     router.get('/post/comments/get/:postId',postController.getComments);
