@@ -27,7 +27,9 @@ exports.createPost = async (req, res) => {
           postURI: cid.path,
           timestamp: new Date().getTime(),
           likes:[],
-          shares: [] 
+          shares: [],
+          tags,
+
         });
         res.json({ staus: true, message: "" });
       }
