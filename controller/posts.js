@@ -31,7 +31,7 @@ exports.createPost = async (req, res) => {
           tags,
 
         });
-        res.json({ staus: true, message: "" });
+        res.json({ staus: true, data:{postId:postId}});
       }
     } catch (error) {
       console.log(error);
