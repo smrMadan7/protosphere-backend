@@ -13,7 +13,7 @@ const ipfs = create(constants.ipfsURL)
 
 exports.createPost = async (req, res) => {
     try {
-      let { postId, address, postData } = req.body;
+      let { postId, address, postData ,tags} = req.body;
       if (!postId || !address || !postData) {
         res.statusCode = 400;
         res.json({ staus: false, message: "Invalid params" });
