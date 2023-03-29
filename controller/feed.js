@@ -1,14 +1,7 @@
 let constants = require('../config/constants');
-const Web3 = require('web3');
-const axios = require('axios');
 const _db = require('../config/db');
 
 let {User,Posts} = require('../config/collection');
-const provider = new Web3.providers.HttpProvider(
-    constants.HyperspaceRPC
-);
-const web3 = new Web3(provider);
-
 
 exports.getFeed = async (req, res) => {
     try {

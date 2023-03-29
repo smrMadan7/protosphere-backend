@@ -1,6 +1,5 @@
 let constants = require('../config/constants');
 const Web3 = require('web3');
-const axios = require('axios');
 const _db = require('../config/db');
 
 let { User, Posts } = require('../config/collection');
@@ -12,6 +11,7 @@ const web3 = new Web3(provider);
 
 const { create } = require('ipfs-http-client')
 const ipfs = create(constants.ipfsURL)
+
 exports.verify = async (req, res) => {
   let signatureHex = req.body.signature;
   let address = req.body.address;
@@ -37,7 +37,6 @@ exports.verify = async (req, res) => {
             data: null,
           });
         }
-
 
       } else { //failed
         res.json({
@@ -120,7 +119,6 @@ exports.registerMember = async (req, res) => {
 
         let NFT = await createMemberNFT(params);
         console.log(NFT);
-        console.log(typeof(NFT));
         if (NFT) {
           await _db.get().collection(User).insertOne(req.body);
           res.json({ status: true, data: req.body, message: "" });
@@ -128,7 +126,7 @@ exports.registerMember = async (req, res) => {
           res.json({ status: false, message: "Error creating profile" });
 
         }
-        }
+      }
 
 
     }

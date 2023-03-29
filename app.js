@@ -1,6 +1,11 @@
 require("dotenv").config();
 const express = require('express');
 app = express();
+const http = require('http')
+const server = http.createServer(app)
+const socketIO = require('socket.io')
+
+
 const bodyparser = require('body-parser');
 let cors = require('cors');
 app.use(bodyparser.json({
@@ -40,13 +45,19 @@ let CONSTANTS = require('./config/constants')
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Filster API Gateway!' });
 });
+
+const io = socketIO(server, {
+    path: '/notification/'
+});
+require("./controller/notification")(io);
+
 require("./config/routes")(app);
 
 const _db = require('./config/db');
 
     _db.connect(async () => {
         console.log(`DB connection successfully established to ${CONSTANTS.value.DBNAME}`);
-        app.listen(CONSTANTS.value.PORT || 3000, () => {
+        server.listen(CONSTANTS.value.PORT || 3000, () => {
             console.log(`listening on ${CONSTANTS.value.PORT}!`);
         });
     });
