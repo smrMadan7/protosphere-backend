@@ -5,6 +5,7 @@ module.exports = app =>{
     let userController = require('../controller/user');
     let postController = require('../controller/posts');
     let feedController = require('../controller/feed');
+    let notificationController = require('../controller/notification');
 
     router.post('/user/verify',userController.verify);
     router.get('/user/checkHandleAvailability/:handle',userController.checkHandle);
@@ -25,6 +26,9 @@ module.exports = app =>{
     router.post('/post/comments/edit',postController.editComment);
 
     router.get('/feed/getFeed/:address',feedController.getFeed);
+
+    router.get('/notifications/:address',feedController.getNotifications);
+
 
     app.use('/api/', router);
 
