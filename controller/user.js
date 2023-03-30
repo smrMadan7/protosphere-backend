@@ -24,7 +24,7 @@ exports.verify = async (req, res) => {
       let recoveredAddress = web3.eth.accounts.recover(message, signatureHex);
       if (recoveredAddress.toUpperCase() === address.toUpperCase()) { //verified
         let profile = await _db.get().collection(User).findOne({ address: address });
-        console.log(profile);
+        // console.log(profile);
         if (profile) {
           delete profile['id'];
           res.json({
@@ -101,7 +101,7 @@ exports.registerMember = async (req, res) => {
     } else {
       // ipfs.add()
       let profile = await _db.get().collection(User).findOne({ address: address })
-      console.log(profile);
+      // console.log(profile);
       if (profile) {
         res.json({ status: false, message: "Profile exists!" });
       } else {
@@ -377,7 +377,7 @@ exports.registerTeam = async (req, res) => {
       if (!address) {
         res.json({ status: false, message: "Invalid params!", statusCode: 400 });
       } else {
-        console.log(address);
+        // console.log(address);
 
         let profile = await _db.get().collection(User).findOne({ address: address })
         if (profile) {
@@ -406,7 +406,7 @@ exports.registerTeam = async (req, res) => {
     if (!address) {
       res.json({ status: false, message: "Invalid params!", statusCode: 400 });
     } else {
-      console.log(address);
+      // console.log(address);
 
       let profile = await _db.get().collection(User).findOne({ address: address })
       if (profile) {
@@ -429,7 +429,7 @@ exports.registerTeam = async (req, res) => {
       if (!address || address.length < 1) {
         res.json({ status: false, message: "Invalid params!", statusCode: 400 });
       } else {
-        console.log(address);
+        // console.log(address);
 
         let profile = await _db
           .get()
