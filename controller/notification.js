@@ -10,13 +10,13 @@ module.exports = (io) => {
 
     socket.on('sendNotifications', async(request) => {
         console.log(request);
+        request['timestamp'] = new Date().getTime();
         await _db.get().collection(Notifications).insertOne({ 
             timestamp: new Date().getTime(), 
             type: request.type ,
             performedBy: request.performedBy,
             subjectId: request.subjectId,
-            actionItem: request.details.actionItem,
-            actionId: request.details.actionId,
+            details: request.details,
             state: 0            
         });
    
