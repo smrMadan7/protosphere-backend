@@ -51,6 +51,24 @@ exports.verify = async (req, res) => {
 
 }
 
+exports.checkProfile = async (req,res) => {
+
+  let address = req.param.address;
+  try {
+    if(!address){
+      res.json({ status: false, message: "Invalid params!" });
+    }else{
+
+    }
+  } catch (error) {
+    
+  }
+
+  let instance = new web3.eth.Contract(config.FilMasterABI, config.FilMasterAddress);
+  let profileInfo = await instance.methods.ProfileIdByAddress(1).call()
+  console.log(profileInfo);
+}
+
 
 exports.checkHandle = async (req, res) => {
   try {
