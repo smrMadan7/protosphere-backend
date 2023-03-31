@@ -12,7 +12,7 @@ exports.getFeed = async (req, res) => {
       }else{
         console.log(Posts);
         let feed = await _db.get().collection(Posts).find({
-            createdBy: {$not :{$eq:address}},
+            // createdBy: {$not :{$eq:address}},
           }).sort({timestamp:-1}).toArray();
 
           for(f of feed){
