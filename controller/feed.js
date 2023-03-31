@@ -1,14 +1,7 @@
 let constants = require('../config/constants');
-const Web3 = require('web3');
-const axios = require('axios');
 const _db = require('../config/db');
 
-let {User,Posts} = require('../config/collection');
-const provider = new Web3.providers.HttpProvider(
-    constants.HyperspaceRPC
-);
-const web3 = new Web3(provider);
-
+let {User,Posts,Notifications} = require('../config/collection');
 
 exports.getFeed = async (req, res) => {
     try {
@@ -19,7 +12,7 @@ exports.getFeed = async (req, res) => {
       }else{
         console.log(Posts);
         let feed = await _db.get().collection(Posts).find({
-            createdBy: {$not :{$eq:address}},
+            // createdBy: {$not :{$eq:address}},
           }).sort({timestamp:-1}).toArray();
 
           for(f of feed){
@@ -40,4 +33,32 @@ exports.getFeed = async (req, res) => {
     } catch (error) {
       console.log(error);
     }   
+}
+
+
+
+exports.getNotifications = async (req, res) => {
+  try {
+    let address = req.params.address;
+
+    if (!address) {
+      res.json({ status: false, message: "Invalid params!", statusCode: 400 });
+    } else {
+      console.log(address);
+
+      let notifications = await _db.get().collection(Notifications).find({ subjectId : address }).sort({timestamp : -1}).limit(10).toArray();
+      if (notifications) {
+        res.json({ status: true, data: notifications});
+      } else {
+        res.json({ status: true, message: "No new notifications!" });
+      }
+
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ status: false, message: "Something went wrong!" });
+
+  }
+
+
 }
