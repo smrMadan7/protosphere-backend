@@ -10,7 +10,7 @@ module.exports =  Object.freeze({
     MONGODBURL : "mongodb://localhost:27017",
     HyperspaceRPC : "https://rpc.ankr.com/filecoin_testnet",
     ipfsURL:"http://localhost:8080",
-    FilMasterAddress : "0x286fe002049D76B8Befe8fC2409a06536DAF749A",
+    FilMasterAddress : "0x211EAfF76dffD2d1455d6bF7ee235C25C006dc61",
     FilMasterABI : [
         {
             "constant": false,
