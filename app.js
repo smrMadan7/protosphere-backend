@@ -12,7 +12,7 @@ app.use(bodyparser.json({
     extended: true
 }));
 
-app.use(cors({methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH', 'OPTIONS'],  origin : '*'}));
+app.use(cors({methods:  '*' ,  origin : '*'}));
 
 
 var ENV_CONFIG;
