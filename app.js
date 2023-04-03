@@ -55,7 +55,11 @@ const io = socketIO(server, {
 require("./controller/notification")(io);
 
 require("./config/routes")(app);
-server.timeout = 180000;
+
+var timeout = require('connect-timeout'); //express v4
+app.use(timeout(180000));
+// app.use(haltOnTimedout);
+
 const _db = require('./config/db');
 
     _db.connect(async () => {
