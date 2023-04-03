@@ -47,7 +47,10 @@ app.get('/', (req, res) => {
 });
 
 const io = socketIO(server, {
-    path: '/notification/'
+    path: '/notification/',
+    cors: {
+        origin: '*',
+      }
 });
 require("./controller/notification")(io);
 
