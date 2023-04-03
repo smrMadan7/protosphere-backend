@@ -55,7 +55,7 @@ const io = socketIO(server, {
 require("./controller/notification")(io);
 
 require("./config/routes")(app);
-server.timeout(180000);
+server.timeout = 180000;
 const _db = require('./config/db');
 
     _db.connect(async () => {
