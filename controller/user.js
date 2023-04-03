@@ -135,15 +135,15 @@ exports.registerMember = async (req, res) => {
           userData: cid.path
         }
 
-        let NFT =  createMemberNFT(params);
-        // console.log(NFT);
-        // if (NFT) {
+        let NFT = await createMemberNFT(params);
+        console.log(NFT);
+        if (NFT) {
           await _db.get().collection(User).insertOne(req.body);
           res.json({ status: true, data: req.body, message: "" });
-        // } else {
-        //   res.json({ status: false, message: "Error creating profile" });
+        } else {
+          res.json({ status: false, message: "Error creating profile" });
 
-        // }
+        }
       }
 
 
@@ -274,15 +274,15 @@ exports.registerTeam = async (req, res) => {
         userData: cid.path
       }
       let NFT =  createTeamNFT(params);
-      // console.log(NFT);
-      // console.log(typeof(NFT));
-      // if (NFT) {
+      console.log(NFT);
+      console.log(typeof(NFT));
+      if (NFT) {
         await _db.get().collection(User).insertOne(req.body);
         res.json({ status: true, data: req.body, message: "" });
-      // } else {
-      //   res.json({ status: false, message: "Error creating profile" });
+      } else {
+        res.json({ status: false, message: "Error creating profile" });
 
-      // }
+      }
 
 
     }
