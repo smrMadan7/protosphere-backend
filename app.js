@@ -58,8 +58,11 @@ require("./config/routes")(app);
 
 var timeout = require('connect-timeout'); //express v4
 app.use(timeout(180000));
-// app.use(haltOnTimedout);
+app.use(haltOnTimedout);
 
+function haltOnTimedout(req, res, next){
+  if (!req.timedout) next();
+}
 const _db = require('./config/db');
 
     _db.connect(async () => {
