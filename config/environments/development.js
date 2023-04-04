@@ -8,9 +8,10 @@ module.exports =  Object.freeze({
     privateKey : pkey,
     AUTH_ADDRESS : "0xB771e43C55444015A798BD5d873B1B14ebda6d7C",
     MONGODBURL : "mongodb://localhost:27017",
-    HyperspaceRPC : "https://rpc.ankr.com/filecoin_testnet",
+    HyperspaceRPC : "https://api.hyperspace.node.glif.io/rpc/v1",
     ipfsURL:"http://localhost:8080",
-    FilMasterAddress : "0x211EAfF76dffD2d1455d6bF7ee235C25C006dc61",
+    // FilMasterAddress : "0x211EAfF76dffD2d1455d6bF7ee235C25C006dc61",
+    FilMasterAddress : "0xf05a876E1D2caD8EB980B3BF4E50F988E8A9DB82",    
     FilMasterABI : [
         {
             "constant": false,
