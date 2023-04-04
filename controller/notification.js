@@ -34,6 +34,7 @@ module.exports = (io) => {
         })
 
         socket.on('createProfile', async (request) => {
+            socket.join(request.address)
             console.log(request);
             let profile;
             if (request.type == 'member') {
