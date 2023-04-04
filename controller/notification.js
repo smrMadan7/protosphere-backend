@@ -13,7 +13,7 @@ const ipfs = create(constants.ipfsURL)
 
 module.exports = (io) => {
     io.on('connection', (socket) => {
-        socket.on('joinNotifications', (params) => {
+        socket.on('establishConnection', (params) => {
             socket.join(params.address)
             //   cb()
         })
