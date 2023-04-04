@@ -41,6 +41,7 @@ module.exports = (io) => {
             } else if (request.type == 'team') {
                 profile = await createTeamProfile(request);
             }
+            console.log('Profile created',profile);
 
             io.to(request.address).emit('profile', profile);
         })
