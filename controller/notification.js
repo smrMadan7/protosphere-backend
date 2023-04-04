@@ -94,7 +94,7 @@ async function createMemberProfile(params) {
             address
         } = params;
         if (!firstName || !lastName || !handle || !profilePictureUrl || !displayName || !bio || !role || !organization || !skill || !openForWork || !address) {
-            res.json({ status: false, message: "Invalid params!", statusCode: 400 });
+            return({ status: false, message: "Invalid params!", statusCode: 400 });
         } else {
             // ipfs.add()
             let profile = await _db.get().collection(User).findOne({ address: address })
@@ -133,7 +133,7 @@ async function createMemberProfile(params) {
 
     } catch (error) {
         console.log(error);
-        res.json({ status: false, message: "Error creating profile" });
+        return({ status: false, message: "Error creating profile" });
 
     }
 
@@ -277,7 +277,7 @@ async function createTeamProfile(params) {
         }
     } catch (error) {
         console.log(error);
-        res.json({ status: false, message: "Error creating profile" });
+        return ({ status: false, message: "Error creating profile" });
 
     }
 
