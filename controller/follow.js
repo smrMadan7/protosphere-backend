@@ -53,7 +53,7 @@ exports.getFollowers = async (req, res) => {
         if(!profileId){
             res.json({status:false, message : "Invalid params!"});
         }else{
-            let followers = await _db.get().collection(Follow).find({profileId},{_id: 0,followerId: 1}).toArray();
+            let followers = await _db.get().collection(Follow).find({profileId},{projection : {_id:0,followerId:1}}).toArray();
             res.json({status: false, data : {followers,count : followers.length}});            
         }
     } catch (error) {
@@ -70,7 +70,7 @@ exports.getFollowingProfiles = async (req, res) => {
         if(!followerId){
             res.json({status:false, message : "Invalid params!"});
         }else{
-            let followers = await _db.get().collection(Follow).find({followerId}).toArray();
+            let followers = await _db.get().collection(Follow).find({followerId},{projection : {_id:0,profileId:1}}).toArray();
             res.json({status: false, data : {followers,count : followers.length}});            
         }
     } catch (error) {
