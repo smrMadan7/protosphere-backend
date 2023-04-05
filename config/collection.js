@@ -1,6 +1,7 @@
 module.exports =  Object.freeze({
     User : "user",
     Posts : "post",
-    Notifications : "notifications"
+    Notifications : "notifications",
+    Follow : "follow"
     
 })

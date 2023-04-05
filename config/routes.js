@@ -6,6 +6,7 @@ module.exports = app =>{
     let postController = require('../controller/posts');
     let feedController = require('../controller/feed');
     let notificationController = require('../controller/notification');
+    let followController = require('../controller/follow');
 
     router.post('/user/verify',userController.verify);
     router.get('/user/checkHandleAvailability/:handle',userController.checkHandle);
@@ -28,6 +29,12 @@ module.exports = app =>{
     router.get('/feed/getFeed/:address',feedController.getFeed);
 
     router.get('/notifications/:address',feedController.getNotifications);
+
+    router.post('/profile/follow',followController.follow);
+    router.post('/profile/unfollow',followController.unfollow);
+    router.get('/profile/followers/:profileId',followController.getFollowers);
+    router.get('/profile/following/:followerId',followController.getFollowingProfiles);
+
 
 
     app.use('/api/', router);
