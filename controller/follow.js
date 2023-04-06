@@ -49,11 +49,11 @@ exports.unfollow = async (req, res) => {
 
 exports.getFollowers = async (req, res) => {
     try {
-        let { followerId } = req.params;
-        if(!followerId){
+        let { profileId } = req.params;
+        if(!profileId){
             res.json({status:false, message : "Invalid params!"});
         }else{
-            let following = await _db.get().collection(Follow).distinct("profileId",{followerId});
+            let following = await _db.get().collection(Follow).distinct("profileId",{profileId});
             console.log(following);
 
             let profile = await _db.get().collection(User).find({ address: { $in: following } }).toArray();
@@ -69,11 +69,11 @@ exports.getFollowers = async (req, res) => {
 
 exports.getFollowingProfiles = async (req, res) => {
     try {
-        let { profileId } = req.params;
-        if(!profileId){
+        let { followerId } = req.params;
+        if(!followerId){
             res.json({status:false, message : "Invalid params!"});
         }else{
-            let followers = await _db.get().collection(Follow).distinct("followerId",{profileId:profileId});
+            let followers = await _db.get().collection(Follow).distinct("followerId",{followerId:followerId});
             console.log(followers);
             let profile = await _db.get().collection(User).find({ address: { $in: followers }}).toArray();
     
