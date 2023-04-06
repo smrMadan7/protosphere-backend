@@ -49,26 +49,6 @@ exports.unfollow = async (req, res) => {
 
 exports.getFollowers = async (req, res) => {
     try {
-        let { profileId } = req.params;
-        if(!profileId){
-            res.json({status:false, message : "Invalid params!"});
-        }else{
-            let followers = await _db.get().collection(Follow).distinct("followerId",{profileId:profileId});
-            console.log(followers);
-            let profile = await _db.get().collection(User).find({ address: { $in: followers }}).toArray();
-
-            res.json({status: true, data : {profile,count : profile.length}});            
-        }
-    } catch (error) {
-        console.log(error);
-        res.json({status: false, message: 'Something went wrong!'});
-
-    }
-}
-
-
-exports.getFollowingProfiles = async (req, res) => {
-    try {
         let { followerId } = req.params;
         if(!followerId){
             res.json({status:false, message : "Invalid params!"});
@@ -83,6 +63,26 @@ exports.getFollowingProfiles = async (req, res) => {
         console.log(error);
         res.json({status: false, message: 'Something went wrong!'});
 
+    }
+}
+
+
+exports.getFollowingProfiles = async (req, res) => {
+    try {
+        let { profileId } = req.params;
+        if(!profileId){
+            res.json({status:false, message : "Invalid params!"});
+        }else{
+            let followers = await _db.get().collection(Follow).distinct("followerId",{profileId:profileId});
+            console.log(followers);
+            let profile = await _db.get().collection(User).find({ address: { $in: followers }}).toArray();
+    
+            res.json({status: true, data : {profile,count : profile.length}});            
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({status: false, message: 'Something went wrong!'});
+    
     }
 }
 
