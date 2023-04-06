@@ -53,10 +53,10 @@ exports.getFollowers = async (req, res) => {
         if(!profile){
             res.json({status:false, message : "Invalid params!"});
         }else{
-            let following = await _db.get().collection(Follow).distinct("followerId",{profileId:profile});
-            console.log(following);
+            let followers = await _db.get().collection(Follow).distinct("followerId",{profileId:profile});
+            console.log(followers);
 
-            let profileData = await _db.get().collection(User).find({ address: { $in: following } }).toArray();
+            let profileData = await _db.get().collection(User).find({ address: { $in: followers } }).toArray();
             res.json({status: true, data : {profile:profileData,count : profileData.length}});            
         }
     } catch (error) {
@@ -73,9 +73,9 @@ exports.getFollowingProfiles = async (req, res) => {
         if(!profile){
             res.json({status:false, message : "Invalid params!"});
         }else{
-            let followers = await _db.get().collection(Follow).distinct("profileId",{followerId:profile});
-            console.log(followers);
-            let profileData = await _db.get().collection(User).find({ address: { $in: followers }}).toArray();
+            let following = await _db.get().collection(Follow).distinct("profileId",{followerId:profile});
+            console.log(following);
+            let profileData = await _db.get().collection(User).find({ address: { $in: following }}).toArray();
     
             res.json({status: true, data : {profile:profileData,count : profileData.length}});            
         }
@@ -90,12 +90,14 @@ exports.getFollowingProfiles = async (req, res) => {
 
 exports.suggestions = async (req, res) => {
     try {
-        let { address } = req.params;
-        if(!followerId){
+        let { profile } = req.params;
+        if(!profile){
             res.json({status:false, message : "Invalid params!"});
         }else{
-            let suggestions = await _db.get().collection(Follow).distinct("profileId",{followerId});
-            res.json({status: true, data : {followers,count : followers.length}});            
+            let followers = await _db.get().collection(Follow).distinct("followerId",{profileId:profile});
+            let suggestions = await _db.get().collection(User).find({address: {$nin:followers}}).toArray();
+
+            res.json({status: true, data : suggestions});            
         }
     } catch (error) {
         console.log(error);
