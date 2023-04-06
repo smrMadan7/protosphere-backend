@@ -14,7 +14,7 @@ exports.follow = async (req, res) => {
                 res.json({status: false, message: 'Already a follower!'});
             }else{
                 await _db.get().collection(Follow).insertOne({profileId,followerId});
-                res.json({status: true, data:""});
+                res.json({status: true, data: {followerId}});
             }
         }
     } catch (error) {
@@ -34,7 +34,7 @@ exports.unfollow = async (req, res) => {
             let followed = await _db.get().collection(Follow).findOne({profileId,followerId});
             if(followed){
                 await _db.get().collection(Follow).deleteOne({profileId,followerId});
-                res.json({status: true, data: ''});
+                res.json({status: true, data: {followerId} });
             }else{
                 res.json({status: false, message:"Not a follower of the profile!"});                
             }
