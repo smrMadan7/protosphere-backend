@@ -56,8 +56,8 @@ exports.getFollowers = async (req, res) => {
             let following = await _db.get().collection(Follow).distinct("followerId",{profileId:profile});
             console.log(following);
 
-            let profile = await _db.get().collection(User).find({ address: { $in: following } }).toArray();
-            res.json({status: true, data : {profile,count : profile.length}});            
+            let profileData = await _db.get().collection(User).find({ address: { $in: following } }).toArray();
+            res.json({status: true, data : {profile:profileData,count : profileData.length}});            
         }
     } catch (error) {
         console.log(error);
@@ -75,9 +75,9 @@ exports.getFollowingProfiles = async (req, res) => {
         }else{
             let followers = await _db.get().collection(Follow).distinct("followerId",{followerId:profile});
             console.log(followers);
-            let profile = await _db.get().collection(User).find({ address: { $in: followers }}).toArray();
+            let profileData = await _db.get().collection(User).find({ address: { $in: followers }}).toArray();
     
-            res.json({status: true, data : {profile,count : profile.length}});            
+            res.json({status: true, data : {profile:profileData,count : profileData.length}});            
         }
     } catch (error) {
         console.log(error);
