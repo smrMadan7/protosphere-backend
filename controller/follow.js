@@ -73,7 +73,7 @@ exports.getFollowingProfiles = async (req, res) => {
         if(!profile){
             res.json({status:false, message : "Invalid params!"});
         }else{
-            let followers = await _db.get().collection(Follow).distinct("followerId",{followerId:profile});
+            let followers = await _db.get().collection(Follow).distinct("profileId",{followerId:profile});
             console.log(followers);
             let profileData = await _db.get().collection(User).find({ address: { $in: followers }}).toArray();
     
