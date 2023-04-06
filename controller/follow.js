@@ -55,7 +55,9 @@ exports.getFollowers = async (req, res) => {
         }else{
             // let followers = await _db.get().collection(Follow).find({profileId},{projection : {_id:0,followerId:1}}).toArray();
             let followers = await _db.get().collection(Follow).distinct("followerId",{profileId});
-            res.json({status: true, data : {followers,count : followers.length}});            
+            let profile = await _db.get().collection(User).find({ address: { $in: followers } , projection : {_id:0}}).toArray();
+
+            res.json({status: true, data : {profile,count : profile.length}});            
         }
     } catch (error) {
         console.log(error);
@@ -71,8 +73,8 @@ exports.getFollowingProfiles = async (req, res) => {
         if(!followerId){
             res.json({status:false, message : "Invalid params!"});
         }else{
-            let followers = await _db.get().collection(Follow).distinct("profileId",{followerId});
-            let profile = await _db.get().collection(User).find({ address: { $in: followers } , projection : {_id:0}}).toArray();
+            let following = await _db.get().collection(Follow).distinct("profileId",{followerId});
+            let profile = await _db.get().collection(User).find({ address: { $in: following } , projection : {_id:0}}).toArray();
             res.json({status: true, data : {profile,count : profile.length}});            
         }
     } catch (error) {
