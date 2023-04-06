@@ -32,8 +32,8 @@ module.exports = app =>{
 
     router.post('/profile/follow',followController.follow);
     router.post('/profile/unfollow',followController.unfollow);
-    router.get('/profile/followers/:profileId',followController.getFollowers);
-    router.get('/profile/following/:followerId',followController.getFollowingProfiles);
+    router.get('/profile/followers/:profile',followController.getFollowers);
+    router.get('/profile/following/:profile',followController.getFollowingProfiles);
 
 
 
