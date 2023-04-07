@@ -14,7 +14,7 @@ exports.follow = async (req, res) => {
                 res.json({status: false, message: 'Already a follower!'});
             }else{
                 await _db.get().collection(Follow).insertOne({profileId,followerId});
-                res.json({status: true, data: {followerId}});
+                res.json({status: true, data: {profileId}});
             }
         }
     } catch (error) {
