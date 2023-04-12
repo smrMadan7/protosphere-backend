@@ -53,7 +53,7 @@ exports.getPostsByAddress = async (req, res) => {
         }).sort({timestamp:-1}).toArray();
         for await (post of posts){
             let user = await _db.get().collection(User).findOne( { address: post.createdBy })
-            post['profilePic'] = user.profilePictureUrl;
+            post['profilePictureUrl'] = user.profilePictureUrl;
             post['displayName'] = user["displayName"] ? user.displayName : user.organizationName;
             post['handle'] = user.handle;
         }
