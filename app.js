@@ -52,7 +52,7 @@ const io = socketIO(server, {
         origin: '*',
       }
 });
-require("./controller/notification")(io);
+require("./controller/socket")(io);
 
 require("./config/routes")(app);
 
