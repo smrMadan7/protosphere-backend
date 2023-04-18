@@ -51,6 +51,12 @@ exports.getPostsByAddress = async (req, res) => {
         let posts =  await _db.get().collection(Posts).find({    
             $or:[{createdBy:address},{shares: {$in:[address]}}]       
         }).sort({timestamp:-1}).toArray();
+        for await (post of posts){
+            let user = await _db.get().collection(User).findOne( { address: post.createdBy })
+            post['profilePictureUrl'] = user.profilePictureUrl;
+            post['displayName'] = user["displayName"] ? user.displayName : user.organizationName;
+            post['handle'] = user.handle;
+        }
         res.json({staus:true, data: posts});
     }
     
@@ -59,27 +65,6 @@ exports.getPostsByAddress = async (req, res) => {
     }   
 
 }
-
-
-// // simple like
-// exports.like = async (req, res) => {
-//     try {
-//         let {postId,handle} = req.body;
-        
-//         console.log(postId);
-//         if(!postId){
-//             res.json({status: false, message: 'Invalid params!'});       
-
-//         }else{
-//             await _db.get().collection(Posts).updateOne( { postId: postId },{ $inc: { likes: 1 }});
-//             res.json({status: true, message: ''});
-//         }
-        
-//     } catch (error) {
-//         res.json({status: false, message: 'unable to update like'});        
-//     }
-// }
-
 
 
 exports.like = async (req, res) => {
