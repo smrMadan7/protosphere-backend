@@ -11,7 +11,7 @@ const web3 = new Web3(provider);
 async function call() {
 console.log(config.FilMasterAddress);
 let instance = new web3.eth.Contract(config.FilMasterABI, config.FilMasterAddress);
-let profileInfo = await instance.methods._memberProfileById(1).call()
+let profileInfo = await instance.methods.ProfileIdByAddress(1).call()
 console.log(profileInfo);
   
 

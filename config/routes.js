@@ -5,7 +5,7 @@ module.exports = app =>{
     let userController = require('../controller/user');
     let postController = require('../controller/posts');
     let feedController = require('../controller/feed');
-    let notificationController = require('../controller/notification');
+    let notificationController = require('../controller/notifications');
     let followController = require('../controller/follow');
 
     router.post('/user/verify',userController.verify);
@@ -28,7 +28,7 @@ module.exports = app =>{
 
     router.get('/feed/getFeed/:address',feedController.getFeed);
 
-    router.get('/notifications/:address',feedController.getNotifications);
+    router.get('/notifications/:address',notificationController.getNotifications);
 
     router.post('/profile/follow',followController.follow);
     router.post('/profile/unfollow',followController.unfollow);
